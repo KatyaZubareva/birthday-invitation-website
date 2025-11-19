@@ -74,7 +74,7 @@ function App() {
 
   return (
     <div
-      className="min-h-screen flex flex-col justify-start items-center p-4 pt-16 bg-cover bg-center relative"
+      className="min-h-screen flex flex-col justify-start items-center p-4 pt-10 bg-cover bg-center relative"
       style={{ backgroundImage: `url(${bgMobile})` }}
     >
       <div
@@ -102,7 +102,7 @@ function App() {
 
       <div className="relative z-10 w-full max-w-sm flex flex-col items-center gap-4">
 
-        <div className="flex flex-col items-center mb-4 pb-16 md:mb-8">
+        <div className="flex flex-col items-center mb-4 md:mb-8">
           <div className="text-8xl font-semibold text-black/70 tracking-tight">
             15:00
           </div>
