@@ -1,31 +1,75 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import bgDesktop from './assets/bg_desktop.png'
 import bgMobile from './assets/bg_mobile.png'
+import icon1 from './assets/1.png'
+import icon2 from './assets/2.png'
+import icon3 from './assets/3.png'
+import music from './assets/baobab.mp3'
+import bottom from './assets/Bottom.png'
+
 
 function App() {
   const [selectedEvent, setSelectedEvent] = useState(null)
 
+
+  useEffect(() => {
+    const audio = new Audio(music)
+    audio.loop = true
+    audio.volume = 1.0
+
+
+    audio.muted = true
+    audio.play().then(() => {
+      audio.muted = false
+      audio.play()
+      console.log("🎵 Автовоспроизведение сработало")
+    }).catch(() => {
+      console.log("⛔ Автовоспроизведение заблокировано — ждём клика")
+    })
+
+
+    const unlock = () => {
+      audio.muted = false
+      audio.play().catch(() => {})
+      console.log("🎵 Музыка запущена после клика")
+      window.removeEventListener("click", unlock)
+    }
+    window.addEventListener("click", unlock)
+
+    // 3) Extra safari hack — retry after small delay
+    setTimeout(() => {
+      audio.play().catch(() => {})
+    }, 1200)
+
+    return () => {
+      window.removeEventListener("click", unlock)
+      audio.pause()
+    }
+  }, [])
+
+
+
   const events = [
     {
       time: "16:00",
-      title: "Power Point party",
+      title: "Power Point Party",
       description: "Каждый придумывает презентацию на любую тему и рассказывает её.",
-      modalText: "В эту часть программы каждый участник создаёт забавную или креативную презентацию и показывает её всем. Будет много смеха, неожиданных идей и весёлой импровизации!",
-      emoji: "📊"
+      modalText: "Будет пиво и презентации. Можно выбрать любую тему, например, сколько раз Гошан какал в этом году.",
+      icon: icon1
     },
     {
       time: "18:00",
       title: "Коктейль-вечеринка",
-      description: "Вечер с коктейлями, музыкой и весельем.",
-      modalText: "Мы соберёмся в уютной атмосфере с коктейлями, легкой музыкой и хорошим настроением. Отличный момент, чтобы пообщаться, посмеяться и сделать красивые фото.",
-      emoji: "🍹"
+      description: "Будем готовить коктейли под музыку.",
+      modalText: "Мы будем делать интересные коктейли и пить их. Паша — ответственный за плейлист.",
+      icon: icon2
     },
     {
       time: "21:00",
       title: "Идем в клуб 'Клуб'",
-      description: "Танцы до утра и незабываемая атмосфера.",
-      modalText: "Заключительная часть вечера — танцы, свет, энергия и незабываемая музыка. Настоящая атмосфера праздника до самого утра!",
-      emoji: "🎶"
+      description: "Выпьем водки и попадем в легендарное место.",
+      modalText: "Пьем водку и фигачим в клуб 'Клуб' трахаться!",
+      icon: icon3
     }
   ]
 
@@ -43,10 +87,31 @@ function App() {
         }}
       />
 
+      {/* IOS animation styles */}
+      <style>
+        {`
+          @keyframes iosFadeUp {
+            0% { opacity: 0; transform: translateY(26px) scale(0.95); filter: blur(4px); }
+            60% { opacity: 1; transform: translateY(0px) scale(1.02); filter: blur(0); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+          }
+
+          .ios-anim {
+            animation: iosFadeUp .55s cubic-bezier(.11, .6, .1, 1);
+          }
+        `}
+      </style>
+
       <div className="relative z-10 w-full max-w-sm flex flex-col items-center gap-4">
-        <h1 className="text-2xl md:text-3xl font-bold mb-4 pb-16 md:mb-8 text-gray-800 text-center">
-          Вам пришло приглашение!
-        </h1>
+
+        <div className="flex flex-col items-center mb-4 pb-16 md:mb-8">
+          <div className="text-8xl font-semibold text-black/70 tracking-tight">
+            15:00
+          </div>
+          <div className="text-black/60 text-lg mt-1">
+            Суббота, 22 ноября
+          </div>
+        </div>
 
         <div className="flex flex-col gap-4 w-full">
           {events.map((event, index) => (
@@ -54,6 +119,7 @@ function App() {
               key={index}
               onClick={() => setSelectedEvent(event)}
               className="
+                ios-anim
                 cursor-pointer
                 bg-white/50 backdrop-blur-xl
                 rounded-3xl shadow-lg border border-white/40
@@ -61,7 +127,7 @@ function App() {
                 active:scale-[0.98] transition
               "
             >
-              <div className="text-3xl">{event.emoji}</div>
+              <img src={event.icon} alt="" className="w-10 h-10 rounded-xl object-contain" />
 
               <div className="flex flex-col flex-1">
                 <div className="flex justify-between items-center">
@@ -75,6 +141,7 @@ function App() {
         </div>
       </div>
 
+
       {selectedEvent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div
@@ -84,12 +151,12 @@ function App() {
 
           <div
             className="
+              ios-anim
               relative z-10 w-80 bg-white/80 backdrop-blur-2xl
               rounded-3xl p-6 shadow-2xl border border-white/40
-              animate-[fadeIn_.2s_ease-out]
             "
           >
-            <div className="text-5xl mb-3 text-center">{selectedEvent.emoji}</div>
+            <img src={selectedEvent.icon} className="w-16 h-16 mx-auto mb-3 rounded-xl object-contain" />
 
             <h2 className="text-xl font-semibold text-center text-gray-900">
               {selectedEvent.title}
@@ -115,6 +182,15 @@ function App() {
           </div>
         </div>
       )}
+
+    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+      <img
+        src={bottom}
+        className="max-w-lg opacity-90"
+        alt=""
+      />
+    </div>
+
     </div>
   )
 }
