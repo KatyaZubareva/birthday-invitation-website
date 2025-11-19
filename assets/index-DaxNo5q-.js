@@ -28,6 +28,6 @@ Error generating stack: `+a.message+`
               relative z-10 w-80 bg-white/80 backdrop-blur-2xl
               rounded-3xl p-6 shadow-2xl border border-white/40
             `,children:[cl.jsx("img",{src:M.icon,className:"w-16 h-16 mx-auto mb-3 rounded-xl object-contain"}),cl.jsx("h2",{className:"text-xl font-semibold text-center text-gray-900",children:M.title}),cl.jsx("p",{className:"text-center text-gray-500 text-sm mt-1",children:M.time}),cl.jsx("p",{className:"text-gray-700 text-base mt-4 text-center leading-relaxed",children:M.modalText}),cl.jsx("button",{onClick:()=>il(null),className:`
-                mt-6 w-full py-2 rounded-2xl bg-gray-600 text-white
+                mt-6 w-full py-2 rounded-2xl bg-gray-800 text-white
                 font-semibold active:scale-[0.97] transition
               `,children:"Закрыть"})]})]}),cl.jsx("div",{className:"absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none",children:cl.jsx("img",{src:i1,className:"max-w-lg opacity-90",alt:""})})]})}t1.createRoot(document.getElementById("root")).render(cl.jsx(yi.StrictMode,{children:cl.jsx(s1,{})}));
