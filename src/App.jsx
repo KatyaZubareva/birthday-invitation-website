@@ -36,7 +36,6 @@ function App() {
     }
     window.addEventListener("click", unlock)
 
-    // 3) Extra safari hack — retry after small delay
     setTimeout(() => {
       audio.play().catch(() => {})
     }, 1200)
@@ -87,7 +86,6 @@ function App() {
         }}
       />
 
-      {/* IOS animation styles */}
       <style>
         {`
           @keyframes iosFadeUp {
@@ -173,7 +171,7 @@ function App() {
             <button
               onClick={() => setSelectedEvent(null)}
               className="
-                mt-6 w-full py-2 rounded-2xl bg-gray-600 text-white
+                mt-6 w-full py-2 rounded-2xl bg-gray-800 text-white
                 font-semibold active:scale-[0.97] transition
               "
             >
